@@ -476,7 +476,6 @@ def read_kitti_label(file, p2, use_3d_for_2d=False):
             elevation = (1.65 - cy3d)
 
             if use_3d_for_2d and h3d > 0 and w3d > 0 and l3d > 0:
-
                 # re-compute the 2D box using 3D (finally, avoids clipped boxes)
                 verts3d, corners_3d = project_3d(p2, cx3d, cy3d, cz3d, w3d, h3d, l3d, rotY, return_3d=True)
 

@@ -55,15 +55,13 @@ def generate_anchors(conf, imdb, cache_folder):
                                       conf.ilbls, conf.anchor_ratios, conf.min_gt_vis, conf.min_gt_h,
                                       conf.max_gt_h, conf.even_anchors, conf.expand_anchors)
 
-
         # has 3d? then need to compute stats for each new dimension
         # presuming that anchors are initialized in "2d"
         elif conf.has_3d:
-
             # compute the default stats for each anchor
             normalized_gts = []
 
-            # check all images
+            # check all images 
             for imind, imobj in enumerate(imdb):
 
                 # has ground truths?
@@ -76,10 +74,10 @@ def generate_anchors(conf, imdb, cache_folder):
                                                    conf.min_gt_h, np.inf, scale)
 
                     # accumulate boxes
-                    gts_all = bbXYWH2Coords(np.array([gt.bbox_full * scale for gt in imobj.gts]))
+                    gts_all = bbXYWH2Coords(np.array([gt.bbox_full * scale for gt in imobj.gts])) #2d_bbox
                     gts_val = gts_all[(rmvs == False) & (igns == False), :]
 
-                    gts_3d = np.array([gt.bbox_3d for gt in imobj.gts])
+                    gts_3d = np.array([gt.bbox_3d for gt in imobj.gts]) # X,Y,Z,W,H,L,roty
                     gts_3d = gts_3d[(rmvs == False) & (igns == False), :]
 
                     if gts_val.shape[0] > 0:
@@ -95,7 +93,7 @@ def generate_anchors(conf, imdb, cache_folder):
                         normalized_gts += np.concatenate((gts_val, gts_3d), axis=1).tolist()
 
             # convert to np
-            normalized_gts = np.array(normalized_gts)
+            normalized_gts = np.array(normalized_gts) #gt 2d+3d info
 
             # expand dimensions
             anchors = np.concatenate((anchors, np.zeros([anchors.shape[0], 5])), axis=1)
@@ -174,7 +172,6 @@ def anchor_center(w, h, stride):
     anchor[1] = -h / 2 + (stride - 1) / 2
     anchor[2] = w / 2 + (stride - 1) / 2
     anchor[3] = h / 2 + (stride - 1) / 2
-
     return anchor
 
 

@@ -18,8 +18,11 @@ np.set_printoptions(suppress=True)
 # -----------------------------------------
 from lib.imdb_util import *
 
-conf_path = '/home/garrick/Desktop/M3D-RPN-Release/m3d_rpn_depth_aware_test_config.pkl'
-weights_path = '/home/garrick/Desktop/M3D-RPN-Release/m3d_rpn_depth_aware_test'
+#conf_path = '/home/garrick/Desktop/M3D-RPN-Release/m3d_rpn_depth_aware_test_config.pkl'
+#weights_path = '/home/garrick/Desktop/M3D-RPN-Release/m3d_rpn_depth_aware_test'
+
+conf_path = '/home/shumao/baidu/personal-code/M3D-RPN/output/kitti_3d_multi_main_20200117/conf.pkl'
+weights_path = '/home/shumao/baidu/personal-code/M3D-RPN/output/kitti_3d_multi_main_20200117/weights/model_50000_pkl'
 
 # load config
 conf = edict(pickle_read(conf_path))
@@ -56,5 +59,6 @@ print(pretty_print('conf', conf))
 # -----------------------------------------
 # test kitti
 # -----------------------------------------
-
+import pdb
+pdb.set_trace()
 test_kitti_3d(conf.dataset_test, net, conf, results_path, data_path, use_log=False)

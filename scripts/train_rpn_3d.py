@@ -44,14 +44,16 @@ def main(argv):
     # -----------------------------------------
     # basic setup
     # -----------------------------------------
-
     conf = init_config(conf_name)
     paths = init_training_paths(conf_name)
 
     init_torch(conf.rng_seed, conf.cuda_seed)
     init_log_file(paths.logs)
 
-    vis = init_visdom(conf_name, conf.visdom_port)
+    #vis = init_visdom(conf_name, conf.visdom_port)
+    vis = None
+    import pdb
+    pdb.set_trace()
 
     # defaults
     start_iter = 0
@@ -60,7 +62,7 @@ def main(argv):
     has_visdom = vis is not None
 
     dataset = Dataset(conf, paths.data, paths.output)
-
+    
     generate_anchors(conf, dataset.imdb, paths.output)
     compute_bbox_stats(conf, dataset.imdb, paths.output)
 
@@ -82,6 +84,8 @@ def main(argv):
     # -----------------------------------------
 
     # training network
+    import pdb
+    pdb.set_trace()
     rpn_net, optimizer = init_training_model(conf, paths.output)
 
     # setup loss
@@ -117,7 +121,7 @@ def main(argv):
 
         #  learning rate
         adjust_lr(conf, optimizer, iteration)
-
+        
         # forward
         cls, prob, bbox_2d, bbox_3d, feat_size = rpn_net(images)
 
